@@ -1,24 +1,13 @@
-# Stage 1: Build Hugo site
+# Stage 1: Hugo build
 FROM klakegg/hugo:ext-alpine AS builder
 
-WORKDIR /site
-
-# Copy source files including theme submodule
+WORKDIR /src
 COPY . .
-
-# Build site (assumes config file exists)
 RUN hugo --minify
 
-# Stage 2: Serve with Nginx
+# Stage 2: Serve with nginx
 FROM nginx:alpine
-
-# Remove default Nginx index
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy built static site to Nginx directory
-COPY --from=builder /site/public /usr/share/nginx/html
-
+COPY --from=builder /src/public /usr/share/nginx/html
 EXPOSE 80
-
 CMD ["nginx", "-g", "daemon off;"]
 

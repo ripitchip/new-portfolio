@@ -3,11 +3,13 @@ stages:
   - dockerize
 
 variables:
-  DOCKER_DRIVER: overlay2
+  HUGO_ENV: production
 
 build:
   stage: build
-  image: klakegg/hugo:ext-alpine
+  image:
+    name: klakegg/hugo:ext-alpine
+    entrypoint: [""]
   before_script:
     - git submodule update --init --recursive
   script:
@@ -15,18 +17,22 @@ build:
   artifacts:
     paths:
       - public/
+    expire_in: 1h
+  only:
+    - main
 
 dockerize:
   stage: dockerize
-  image: docker:24.0.5
+  image: docker:latest
   services:
-    - docker:24.0.5-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_TLS_CERTDIR: ""
+    - docker:dind
+  dependencies:
+    - build
   before_script:
-    - apk add --no-cache docker-cli
-    - git submodule update --init --recursive
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:latest .
-    - docker push $CI_REGISTRY_IMAGE:latest
+    # Use root context, but point to docker/Dockerfile
+    - docker build -f docker/Dockerfile -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+  only:
+    - main
