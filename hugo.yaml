@@ -121,3 +121,10 @@ pygmentsUseClasses: true
 markup:
   highlight:
     noClasses: false
+
+privacy:
+  googleAnalytics:
+    disable: false
+    respectDoNotTrack: false
+
+ignoreErrors: ["error-remote-getjson"]

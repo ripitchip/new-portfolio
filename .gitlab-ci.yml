@@ -1,0 +1,33 @@
+image: docker:latest
+
+variables:
+  IMAGE_NAME: registry.gitlab.com/ripitchip/new-portfolio
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - dockerize
+
+build:hugo:
+  image: hugomods/hugo:nightly
+  stage: build
+  script:
+    - hugo --minify
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 hour
+
+docker:build-and-push:
+  stage: dockerize
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile .
+    - docker push "$IMAGE_NAME:latest"
+  only:
+    - main
+  dependencies:
+    - build:hugo
