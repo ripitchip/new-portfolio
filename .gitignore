@@ -1,0 +1,28 @@
+# Hugo build outputs
+/public/
+/resources/_gen/
+
+# Hugo cache and temp files
+/.hugo_build.lock
+/.hugo_cache/
+.hugo_workdir.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor config files
+.vscode/
+.idea/
+*.swp
+
+# Node modules if you use npm/yarn
+node_modules/
+
+# Logs
+*.log
+
+# Assets you don't want to track (optional)
+/assets/
+/static/css/
+/static/js/
