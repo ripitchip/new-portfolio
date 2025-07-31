@@ -1,0 +1,11 @@
+# docker/Dockerfile.build
+FROM hugomods/hugo:nightly
+
+WORKDIR /src
+
+COPY . .
+
+RUN hugo --minify
+
+# Output the static files for next stage or export
+CMD ["true"]

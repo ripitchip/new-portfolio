@@ -12,10 +12,14 @@ stages:
   - dockerize
 
 build:hugo:
-  image: hugomods/hugo:nightly
+  image: docker:stable
   stage: build
   script:
-    - hugo --minify
+    # Build image using Dockerfile.build, output static site as artifact
+    - docker build -f docker/Dockerfile.build -t hugo-builder .
+    - docker create --name extract hugo-builder
+    - docker cp extract:/src/public ./public
+    - docker rm -f extract
   artifacts:
     paths:
       - public/
@@ -29,7 +33,7 @@ docker:build-and-push:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - mkdir -p docker/public
     - cp -r public/* docker/public/
-    - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile docker/
+    - docker build -f docker/Dockerfile.nginx -t "$IMAGE_NAME:latest" docker/
     - docker push "$IMAGE_NAME:latest"
   only:
     - main
