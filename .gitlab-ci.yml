@@ -1,38 +1,42 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  IMAGE_NAME: registry.gitlab.com/ripitchip/new-portfolio
+  DOCKER_TLS_CERTDIR: ""
+
 stages:
   - build
   - dockerize
 
-variables:
-  HUGO_ENV: production
-
-build:
+# Step 1: Build the Hugo site
+build:hugo:
+  image: hugomods/hugo:nightly
   stage: build
-  image:
-    name: klakegg/hugo:ext-alpine
-    entrypoint: [""]
   before_script:
     - git submodule update --init --recursive
+    - mkdir -p layouts/partials
+    - echo '{{/* fallback for analytics */}}' > layouts/partials/google_analytics.html
   script:
     - hugo --minify
   artifacts:
     paths:
       - public/
-    expire_in: 1h
+    expire_in: 1 hour
   only:
     - main
 
-dockerize:
+# Step 2: Dockerize and push the site
+docker:build-and-push:
   stage: dockerize
-  image: docker:latest
-  services:
-    - docker:dind
   dependencies:
-    - build
-  before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - build:hugo
   script:
-    # Use root context, but point to docker/Dockerfile
-    - docker build -f docker/Dockerfile -t "$CI_REGISTRY_IMAGE:latest" .
-    - docker push "$CI_REGISTRY_IMAGE:latest"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - mv public docker/public
+    - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile docker/
+    - docker push "$IMAGE_NAME:latest"
   only:
     - main
