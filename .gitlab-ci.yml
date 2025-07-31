@@ -11,6 +11,7 @@ stages:
   - build
   - dockerize
 
+# Step 1: Build the static site with Hugo
 build:hugo:
   image: hugomods/hugo:nightly
   stage: build
@@ -18,17 +19,18 @@ build:hugo:
     - hugo --minify
   artifacts:
     paths:
-      - public
+      - public/
     expire_in: 1 hour
 
+# Step 2: Build and push Docker image using public/ as web root
 docker:build-and-push:
   stage: dockerize
   dependencies:
     - build:hugo
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - ls -alh public
-    - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile .
+    - mv public docker/public # Move artifact into Docker build context
+    - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile docker/
     - docker push "$IMAGE_NAME:latest"
   only:
     - main
