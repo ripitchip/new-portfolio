@@ -1,4 +1,4 @@
-baseURL: "https://examplesite.com/"
+baseURL: "https://thomas.kodelab.com/"
 title: 1001_Sujets
 
 pagination:
@@ -19,7 +19,7 @@ outputs:
   home:
     - HTML
     - RSS
-    - JSON # necessary for search functionality
+    - JSON
 
 params:
   env: production
@@ -112,9 +112,9 @@ menu:
       name: Search
       url: /search/
       weight: 5
-    - identifier: example
-      name: example.org
-      url: https://example.org
+    - identifier: website
+      name: docs.kodelab.fr
+      url: https://docs.kodelab.fr
       weight: 30
 
 pygmentsUseClasses: true
@@ -126,5 +126,3 @@ privacy:
   googleAnalytics:
     disable: false
     respectDoNotTrack: false
-
-ignoreErrors: ["error-remote-getjson"]
