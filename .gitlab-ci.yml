@@ -11,14 +11,14 @@ stages:
   - build
   - dockerize
 
-# Step 1: Build the Hugo site
+# STEP 1: Hugo build using latest PaperMod-compatible image
 build:hugo:
   image: hugomods/hugo:nightly
   stage: build
   before_script:
     - git submodule update --init --recursive
     - mkdir -p layouts/partials
-    - echo '{{/* fallback for analytics */}}' > layouts/partials/google_analytics.html
+    - echo '{{/* dummy GA partial */}}' > layouts/partials/google_analytics.html
   script:
     - hugo --minify
   artifacts:
@@ -28,14 +28,17 @@ build:hugo:
   only:
     - main
 
-# Step 2: Dockerize and push the site
-docker:build-and-push:
+# STEP 2: Dockerize static site using only NGINX
+docker:nginx:
+  image: docker:latest
   stage: dockerize
   dependencies:
     - build:hugo
-  script:
+  before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
-    - mv public docker/public
+  script:
+    - mkdir -p docker/public
+    - cp -r public/* docker/public/
     - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile docker/
     - docker push "$IMAGE_NAME:latest"
   only:
