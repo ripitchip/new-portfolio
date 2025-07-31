@@ -1,43 +1,17 @@
-image: docker:latest
-
-variables:
-  IMAGE_NAME: registry.gitlab.com/ripitchip/new-portfolio
-  DOCKER_TLS_CERTDIR: ""
-
-services:
-  - docker:dind
+image: hugomods/hugo:nightly
 
 stages:
   - build
-  - dockerize
 
-# Step 1: Build the static site with Hugo nightly version
 build:hugo:
-  image: hugomods/hugo:nightly
   stage: build
   script:
     - hugo --minify
-    - echo "Listing contents of public/ after build:"
+    - echo "Listing public/ folder (non-recursive):"
     - ls -la public/
+    - echo "Listing public/ folder recursively:"
+    - find public/
   artifacts:
     paths:
       - public/
-    expire_in: 1 hour
-
-# Step 2: Build and push Docker image using public/ as web root
-docker:build-and-push:
-  stage: dockerize
-  dependencies:
-    - build:hugo
-  script:
-    - echo "Listing contents of public/ artifact:"
-    - ls -la public/
-    - mkdir -p docker/public
-    - cp -r public/. docker/public/
-    - echo "Listing contents of docker/public before docker build:"
-    - ls -la docker/public/
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile docker/
-    - docker push "$IMAGE_NAME:latest"
-  only:
-    - main
+    expire_in: 30 minutes
