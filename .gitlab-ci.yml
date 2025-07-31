@@ -1,17 +1,32 @@
-image: hugomods/hugo:nightly
-
 stages:
   - build
+  - dockerize
 
-build:hugo:
+variables:
+  DOCKER_DRIVER: overlay2
+
+build:
   stage: build
+  image: klakegg/hugo:ext-alpine
+  before_script:
+    - git submodule update --init --recursive
   script:
     - hugo --minify
-    - echo "Listing public/ folder (non-recursive):"
-    - ls -la public/
-    - echo "Listing public/ folder recursively:"
-    - find public/
   artifacts:
     paths:
       - public/
-    expire_in: 30 minutes
+
+dockerize:
+  stage: dockerize
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add --no-cache docker-cli
+    - git submodule update --init --recursive
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
