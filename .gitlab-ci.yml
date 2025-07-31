@@ -23,11 +23,12 @@ build:hugo:
 
 docker:build-and-push:
   stage: dockerize
+  dependencies:
+    - build:hugo
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - ls -alh public
     - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile .
     - docker push "$IMAGE_NAME:latest"
   only:
     - main
-  dependencies:
-    - build:hugo

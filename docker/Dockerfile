@@ -1,5 +1,5 @@
 # Stage 1: Build with Hugo
-FROM hugomods/hugo:nightly as builder
+FROM hugomods/hugo:nightly AS builder
 
 WORKDIR /src
 COPY . .
@@ -11,3 +11,4 @@ FROM nginx:alpine
 COPY --from=builder /src/public /usr/share/nginx/html
 
 EXPOSE 80
+
