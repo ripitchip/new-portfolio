@@ -65,11 +65,10 @@ params:
 
   assets:
     favicon: /mypatch.png
-    favicon16x16: "<link or absolute URL>"
-    favicon32x32: "<link or absolute URL>"
-    apple_touch_icon: "<link or absolute URL>"
-    safari_pinned_tab: "<link or absolute URL>"
-
+    favicon16x16: /mypatch.png
+    favicon32x32: /mypatch.png
+    apple_touch_icon: /mypatch.png
+    safari_pinned_tab: /mypatch.png
   label:
     text: "1001 Sujets"
     icon: /mypatch.png
