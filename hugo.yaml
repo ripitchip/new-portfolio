@@ -64,7 +64,7 @@ params:
   #   lang: en
 
   assets:
-    favicon: /mypatch.png
+    favicon: /mypatch.ico
     favicon16x16: /mypatch.png
     favicon32x32: /mypatch.png
     apple_touch_icon: /mypatch.png
@@ -124,6 +124,10 @@ menu:
       name: Search
       url: /search/
       weight: 5
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 10
     - identifier: website
       name: docs.kodelab.fr
       url: https://docs.kodelab.fr
@@ -133,7 +137,9 @@ pygmentsUseClasses: true
 markup:
   highlight:
     noClasses: false
-
+  goldmark:
+    renderer:
+      unsafe: true
 privacy:
   googleAnalytics:
     disable: false
