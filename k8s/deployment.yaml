@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hugo-blog
+  namespace: blog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hugo-blog
+  template:
+    metadata:
+      labels:
+        app: hugo-blog
+    spec:
+      containers:
+        - name: hugo
+          image: registry.gitlab.com/ripitchip/new-portfolio:latest
+          ports:
+            - containerPort: 80
+
