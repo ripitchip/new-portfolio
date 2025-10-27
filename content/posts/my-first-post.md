@@ -8,11 +8,7 @@ tags:
 categories:
   - blog
 ---
-
-# Test
-
 Welcome to my first post! This post is a simple test for search indexing and categorization.
 
 > [!WARNING]
 > Warning: This operation will delete all data.
-

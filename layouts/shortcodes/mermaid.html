@@ -1,0 +1,5 @@
+{{ if .Page.Site.Params.enableMermaid }}
+<div class="mermaid">
+{{ .Inner | safeHTML }}
+</div>
+{{ end }}

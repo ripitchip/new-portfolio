@@ -2,6 +2,8 @@
 title: "About"
 url: /about/
 type: page
+showtoc: false
+ShowShareButtons: false
 ---
 
 <style>

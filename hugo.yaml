@@ -35,10 +35,10 @@ params:
   disableThemeToggle: false
 
   ShowReadingTime: true
-  ShowShareButtons: false
+  ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
-  ShowCodeCopyButtons: false
+  ShowCodeCopyButtons: true
   ShowWordCount: true
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
@@ -46,22 +46,10 @@ params:
   disableScrollToTop: false
   hidemeta: false
   hideSummary: false
-  showtoc: false
+  showtoc: true
   tocopen: false
   comments: true
   commentSystems: giscus
-  # giscus:
-  #   repo: ripitchip/new-portfolio
-  #   repoID: "R_kgDOPWTzow"
-  #   category: General
-  #   categoryID: "DIC_kwDOPWTzo84CtptL"
-  #   mapping: pathname
-  #   strict: false
-  #   reactionsEnabled: "1"
-  #   emitMetadata: "0"
-  #   inputPosition: bottom
-  #   theme: dark
-  #   lang: en
 
   assets:
     favicon: /mypatch.ico
@@ -118,6 +106,15 @@ params:
 
   EnableSearch: true
 
+  # -------------------
+  # MERMAID CONFIG
+  # -------------------
+  enableMermaid: true      # enable Mermaid diagrams
+  mermaid:
+    theme: base            # default theme (base, forest, dark, etc.)
+    startOnLoad: true      # initialize Mermaid automatically
+    securityLevel: strict  # optional: strict, loose, etc.
+
 menu:
   main:
     - identifier: search
@@ -134,12 +131,15 @@ menu:
       weight: 30
 
 pygmentsUseClasses: true
+
 markup:
   highlight:
     noClasses: false
   goldmark:
     renderer:
-      unsafe: true
+      unsafe: true         # required for raw HTML and Mermaid <div>
+      guseeSyntax: false
+
 privacy:
   googleAnalytics:
     disable: false
