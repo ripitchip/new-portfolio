@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: hugo
-          image: registry.gitlab.com/ripitchip/new-portfolio:latest
+          image: registry.gitlab.com/ripitchip/new-portfolio:1.0.1
           ports:
             - containerPort: 80
 
