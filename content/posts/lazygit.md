@@ -3,22 +3,31 @@ date: '2025-07-30T21:22:33-04:00'
 draft: false
 title: 'Presentation of lazygit'
 tags:
-  - tools
+  - CLI
 categories:
   - blog
+weight: 2
+author: ["Thomas DERUDDER"]
 ---
+
 ## Why do I use lazygit
+
 I use Lazygit in order to have a gui for my git folder management.
 It is usefull to see modifications commits ect.
 You can manage multiple aspect of yoiur git project:
+
 - commits
 - patch selection (selecting line to add to commits)
 - branches
 - history
+
 ## What is really cool?
+
 ### GitMoji
+
 Fiorstly you can use gitmoji, quite usefull on commits
 ![GitMoji example](/images/posts/lazygit/gitmoji.png)
+
 ```yaml
 customCommands:
   - key: "<c-c>"
@@ -89,12 +98,15 @@ customCommands:
         key: "Message"
         initialValue: ""
 ```
+
 ### Custom commands
+
 Using Gitmoji with custom commands allows you to create a command that selects the desired Gitmoji and even the desired issue number.
 Here is an example:
 ![Example of a custom command](/images/posts/lazygit/custom.gif)
 For this config I first select the correct gitmoji and then the issue.
 For that i have a bash command that get all my gitlab issues (based on glab)
+
 ```yaml
   - type: "menuFromCommand"
     title: "Which remote repository to push to?"

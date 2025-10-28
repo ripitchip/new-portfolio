@@ -24,6 +24,7 @@ build:hugo:
   artifacts:
     paths:
       - public/
+      - VERSION.txt
     expire_in: 1 hour
   only:
     - main
@@ -39,7 +40,11 @@ docker:nginx:
   script:
     - mkdir -p docker/public
     - cp -r public/* docker/public/
-    - docker build -t "$IMAGE_NAME:latest" -f docker/Dockerfile docker/
+    # read version from VERSION.txt
+    - VERSION=$(cat VERSION.txt)
+    - echo "Building Docker image with version $VERSION"
+    - docker build -t "$IMAGE_NAME:latest" -t "$IMAGE_NAME:$VERSION" -f docker/Dockerfile docker/
     - docker push "$IMAGE_NAME:latest"
+    - docker push "$IMAGE_NAME:$VERSION"
   only:
     - main

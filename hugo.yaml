@@ -21,6 +21,13 @@ outputs:
     - RSS
     - JSON
 
+# -------------------
+# TAXONOMIES
+# -------------------
+taxonomies:
+  category: categories
+  tag: tags
+
 params:
   env: production
 
@@ -51,6 +58,12 @@ params:
   comments: true
   commentSystems: giscus
 
+  ShowAuthor: true
+  ShowTags: true
+  ShowCategories: true
+  ShowTaxonomies: true
+  ShowPostTags: true
+
   assets:
     favicon: /mypatch.ico
     favicon16x16: /mypatch.png
@@ -66,7 +79,7 @@ params:
     enabled: false
 
   homeInfoParams:
-    Title: "Hi there \U0001F44B"
+    Title: "Hi there 👋"
     Content: "Welcome to my blog"
 
   socialIcons:
@@ -106,14 +119,11 @@ params:
 
   EnableSearch: true
 
-  # -------------------
-  # MERMAID CONFIG
-  # -------------------
-  enableMermaid: true      # enable Mermaid diagrams
+  enableMermaid: true
   mermaid:
-    theme: base            # default theme (base, forest, dark, etc.)
-    startOnLoad: true      # initialize Mermaid automatically
-    securityLevel: strict  # optional: strict, loose, etc.
+    theme: base
+    startOnLoad: true
+    securityLevel: strict
 
 menu:
   main:
@@ -121,6 +131,14 @@ menu:
       name: Search
       url: /search/
       weight: 5
+    - identifier: categories
+      name: Categories
+      url: /categories/
+      weight: 8
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 9
     - identifier: about
       name: About
       url: /about/
@@ -137,7 +155,7 @@ markup:
     noClasses: false
   goldmark:
     renderer:
-      unsafe: true         # required for raw HTML and Mermaid <div>
+      unsafe: true
       guseeSyntax: false
 
 privacy:

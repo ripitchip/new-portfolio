@@ -6,8 +6,12 @@ tags:
   - Virtualization
 categories:
   - blog
+series: "Python Series"
+weight: 4
+author: ["Thomas DERUDDER"]
 ---
-# First setup your vagrant file
+
+## First setup your vagrant file
 
 To begin, you'll need to configure your Vagrantfile. You can refer to the official [vagrant documentation](https://developer.hashicorp.com/vagrant/docs/boxes)
 
@@ -21,7 +25,10 @@ sudo apt install virtualbox
 Vagrant is a powerful tool that allows you to manage and run virtual machines (VMs) using your preferred virtualization software. It provides a consistent and efficient way to work with VMs, regardless of the underlying virtualization technology.
 ![explication](/images/posts/vagrant/explication.png)
 
-## How to use vagrant
+> [!INFO]
+> You can setup a small LAB to make some tests very easily with vagrant.
+
+### How to use vagrant
 
 You need to create a VagrantFile here is an example
 
@@ -32,7 +39,7 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-## Example complex config
+### Example complex config
 
 ```sh
 Vagrant.configure("2") do |config|
@@ -50,3 +57,6 @@ Vagrant.configure("2") do |config|
   end
 end
 ```
+
+> [!WARNING]
+> An image can be built for arm or not, make sure to use a correct version.
