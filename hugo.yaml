@@ -1,4 +1,4 @@
-baseURL: "https://blog.kodelab.fr/"
+baseURL: "https://foobarbaz.fr/"
 title: FooBarBaz
 
 pagination:
@@ -144,8 +144,8 @@ menu:
       url: /about/
       weight: 10
     - identifier: website
-      name: book.kodelab.fr
-      url: https://book.kodelab.fr
+      name: book.foobarbaz.fr
+      url: https://book.foobarbaz.fr
       weight: 30
 
 pygmentsUseClasses: true
