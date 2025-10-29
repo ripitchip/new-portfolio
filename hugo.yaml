@@ -1,5 +1,5 @@
 baseURL: "https://blog.kodelab.fr/"
-title: 1001_Sujets
+title: 418_Teapot
 
 pagination:
   pagerSize: 5
@@ -71,7 +71,7 @@ params:
     apple_touch_icon: /mypatch.png
     safari_pinned_tab: /mypatch.png
   label:
-    text: "1001 Sujets"
+    text: "418 I'm a Teapot"
     icon: /mypatch.png
     iconHeight: 35
 
